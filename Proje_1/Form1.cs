@@ -14,7 +14,7 @@ namespace Proje_1
 {
     public partial class Form1 : Form
     {
-        // Database Variables
+        
         string dbFileName = "P_information.db";
         string connectionString;
 
@@ -25,7 +25,7 @@ namespace Proje_1
             VeritabaniHazirla();
         }
 
-        // --- DATABASE PREPARATION (ENGLISH TABLE) ---
+        
         private void VeritabaniHazirla()
         {
             if (!File.Exists(dbFileName))
@@ -38,7 +38,7 @@ namespace Proje_1
                 try
                 {
                     connection.Open();
-                    // UPDATED: Creating 'Users' table instead of 'Kullanicilar'
+                    
                     string sql = "CREATE TABLE IF NOT EXISTS Users (Id INTEGER PRIMARY KEY AUTOINCREMENT, Username TEXT, Password TEXT)";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection))
                     {
@@ -52,7 +52,7 @@ namespace Proje_1
             }
         }
 
-        // --- LOGIN BUTTON (button1) ---
+        
         private void button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox1.Text) || string.IsNullOrWhiteSpace(textBox2.Text))
@@ -66,7 +66,7 @@ namespace Proje_1
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
                 {
                     connection.Open();
-                    // UPDATED SQL: Using 'Users', 'Username', 'Password'
+                    // username ve password kontrolü
                     string sql = "SELECT * FROM Users WHERE Username=@user AND Password=@pass";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection))
                     {
@@ -79,7 +79,7 @@ namespace Proje_1
                             {
                                 MessageBox.Show("Login Successful! Welcome.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                // Save logged-in user (Updated column name)
+                                
                                 Form3.AktifKullanici = reader["Username"].ToString();
 
                                 Form2 form2 = new Form2();
@@ -100,7 +100,7 @@ namespace Proje_1
             }
         }
 
-        // --- REGISTER BUTTON (button2) ---
+        
         private void button2_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(textBox3.Text) || string.IsNullOrWhiteSpace(textBox4.Text))
@@ -115,7 +115,7 @@ namespace Proje_1
                 {
                     connection.Open();
 
-                    // Check if username exists (Updated SQL)
+                    // user var mı diye kontrol etme
                     string checkSql = "SELECT COUNT(*) FROM Users WHERE Username=@user";
                     using (SQLiteCommand checkCmd = new SQLiteCommand(checkSql, connection))
                     {
@@ -127,7 +127,7 @@ namespace Proje_1
                         }
                     }
 
-                    // Insert New User (Updated SQL)
+                    //yeni user ekleme
                     string sql = "INSERT INTO Users (Username, Password) VALUES (@user, @pass)";
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection))
                     {
@@ -148,7 +148,7 @@ namespace Proje_1
             }
         }
 
-        // --- EMPTY EVENTS ---
+        
         private void textBox1_TextChanged(object sender, EventArgs e) { }
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void textBox3_TextChanged(object sender, EventArgs e) { }

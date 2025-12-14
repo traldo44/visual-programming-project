@@ -9,8 +9,7 @@ namespace Proje_1
         string dbFileName = "P_information.db";
         string connectionString;
 
-        // Form1 ve Form4 bu değişkene eriştiği için ismini 'AktifKullanici' olarak bıraktım.
-        // Böylece diğer kodlarda hata almazsın.
+        // Form1 ve Form4 bu değişkene eriştiği için ismini 'AktifKullanici' olarak yazdım.
         public static string AktifKullanici = "";
 
         public Form3()
@@ -19,17 +18,17 @@ namespace Proje_1
             connectionString = $"Data Source={dbFileName};Version=3;";
         }
 
-        // --- CHANGE PASSWORD BUTTON (button1) ---
+        
         private void button1_Click(object sender, EventArgs e)
         {
-            // 1. Check for empty fields
+           
             if (string.IsNullOrWhiteSpace(textBox2.Text) || string.IsNullOrWhiteSpace(textBox3.Text))
             {
                 MessageBox.Show("Please fill in all password fields.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Check Password Match
+           
             if (textBox2.Text != textBox3.Text)
             {
                 MessageBox.Show("New passwords do not match. Please check again.", "Mismatch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -42,7 +41,7 @@ namespace Proje_1
                 {
                     connection.Open();
 
-                    // UPDATED SQL: Using 'Users', 'Password', 'Username'
+                   
                     string sql = "UPDATE Users SET Password=@newPass WHERE Username=@user";
 
                     using (SQLiteCommand command = new SQLiteCommand(sql, connection))
@@ -56,7 +55,7 @@ namespace Proje_1
                         {
                             MessageBox.Show("Password changed successfully! For security, please login again.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            // Redirect to Login Page (Form1)
+                           
                             Form1 form1 = new Form1();
                             form1.Show();
                             this.Hide();
@@ -74,7 +73,6 @@ namespace Proje_1
             }
         }
 
-        // --- BACK BUTTON (button2) ---
         private void button2_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
@@ -82,7 +80,6 @@ namespace Proje_1
             this.Hide();
         }
 
-        // --- EMPTY EVENTS ---
         private void textBox2_TextChanged(object sender, EventArgs e) { }
         private void textBox3_TextChanged(object sender, EventArgs e) { }
     }

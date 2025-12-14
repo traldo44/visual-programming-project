@@ -7,46 +7,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SQLite; // SQLite Library
+using System.Data.SQLite; 
 using System.IO;
 
 namespace Proje_1
 {
     public partial class Form4 : Form
     {
-        // Database Path
         string dbFileName = "P_information.db";
         string connectionString;
 
-        // --- CONSTRUCTOR ---
         public Form4()
         {
             InitializeComponent();
             connectionString = $"Data Source={dbFileName};Version=3;";
 
-            // Button image fix
             button3.BackgroundImageLayout = ImageLayout.Stretch;
 
-            // Load Initial Settings
             InitialSettings();
         }
 
-        // --- INITIAL SETTINGS ---
         private void InitialSettings()
         {
-            // 1. Reset Labels
-            label8.Text = "0.00"; // Income
-            label9.Text = "0.00"; // Expense
-            label10.Text = "0.00"; // Balance
+            label8.Text = "0.00";
+            label9.Text = "0.00"; 
+            label10.Text = "0.00"; 
 
-            // 2. Create Table if not exists
             PrepareTable();
 
-            // 3. Load Data and Calculate
             ListData();
         }
 
-        // --- 1. CREATE DATABASE TABLE (ENGLISH SQL) ---
         private void PrepareTable()
         {
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -54,7 +45,6 @@ namespace Proje_1
                 try
                 {
                     connection.Open();
-                    // Table Name: Transactions
                     string sql = @"CREATE TABLE IF NOT EXISTS Transactions (
                                     Id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                     Username TEXT, 
@@ -76,7 +66,6 @@ namespace Proje_1
             }
         }
 
-        // --- 2. LIST DATA ---
         private void ListData()
         {
             using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -84,7 +73,6 @@ namespace Proje_1
                 try
                 {
                     connection.Open();
-                    // Select only current active user's data
                     string sql = "SELECT * FROM Transactions WHERE Username=@user";
 
                     using (SQLiteDataAdapter da = new SQLiteDataAdapter(sql, connection))
@@ -96,7 +84,6 @@ namespace Proje_1
                         dataGridView1.DataSource = dt;
                     }
 
-                    // Calculate Balance after loading data
                     CalculateAndPrint();
                 }
                 catch (Exception ex)
@@ -106,7 +93,6 @@ namespace Proje_1
             }
         }
 
-        // --- 3. CALCULATION FUNCTION ---
         private void CalculateAndPrint()
         {
             double totalIncome = 0;
@@ -139,12 +125,10 @@ namespace Proje_1
             else label10.ForeColor = Color.Green;
         }
 
-        // --- BUTTON 1: SAVE (INSERT) ---
         private void button1_Click(object sender, EventArgs e)
         {
             PrepareTable();
 
-            // 1. Check for Empty Fields
             if (string.IsNullOrWhiteSpace(maskedTextBox1.Text) ||
                 string.IsNullOrWhiteSpace(textBox2.Text) ||
                 comboBox1.SelectedIndex == -1 ||
@@ -154,17 +138,14 @@ namespace Proje_1
                 return;
             }
 
-            // 2. *** NUMBER VALIDATION (SADECE SAYI KONTROLÜ) ***
             double checkNumber;
-            // TryParse: Eğer textBox2.Text sayıya çevrilebiliyorsa 'true' döner, çevrilemezse (harf varsa) 'false' döner.
             if (!double.TryParse(textBox2.Text, out checkNumber))
             {
-                // İngilizce Hata Mesajı
+                
                 MessageBox.Show("The Amount field must contain only numbers!", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return; // Stop the function here
+                return; 
             }
 
-            // 3. Database Operations
             try
             {
                 using (SQLiteConnection connection = new SQLiteConnection(connectionString))
@@ -185,8 +166,8 @@ namespace Proje_1
 
                         MessageBox.Show("Record Saved Successfully!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        ListData(); // Refresh list
-                        ClearFields(); // Clear inputs
+                        ListData(); 
+                        ClearFields(); 
                     }
                 }
             }
@@ -196,7 +177,6 @@ namespace Proje_1
             }
         }
 
-        // --- BUTTON 4: DELETE ---
         private void button4_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(maskedTextBox2.Text))
@@ -243,7 +223,6 @@ namespace Proje_1
             }
         }
 
-        // --- BUTTON 2: CLEAR ---
         private void button2_Click(object sender, EventArgs e)
         {
             ClearFields();
@@ -258,7 +237,6 @@ namespace Proje_1
             textBox2.Clear();
         }
 
-        // --- BUTTON 3: BACK ---
         private void button3_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
@@ -266,7 +244,6 @@ namespace Proje_1
             this.Hide();
         }
 
-        // Empty Events
         private void Form4_Load(object sender, EventArgs e) { }
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e) { }

@@ -17,7 +17,6 @@ namespace Proje_1
             InitializeComponent();
         }
 
-        // --- BUTTON 1: Open Form3 (Change Password) ---
         private void button1_Click(object sender, EventArgs e)
         {
             Form3 form3 = new Form3();
@@ -25,7 +24,6 @@ namespace Proje_1
             this.Hide();
         }
 
-        // --- BUTTON 2: Open Form4 (Transactions) ---
         private void button2_Click(object sender, EventArgs e)
         {
             Form4 form4 = new Form4();
@@ -33,7 +31,6 @@ namespace Proje_1
             this.Hide();
         }
 
-        // --- BUTTON 4: Open Form5 (Analysis/Graphs) ---
         private void button4_Click(object sender, EventArgs e)
         {
             Form5 form5 = new Form5();
@@ -41,7 +38,6 @@ namespace Proje_1
             this.Hide();
         }
 
-        // --- BUTTON 5: Logout / Back to Form1 ---
         private void button5_Click(object sender, EventArgs e)
         {
             Form1 form1 = new Form1();
@@ -49,15 +45,13 @@ namespace Proje_1
             this.Hide();
         }
 
-        // --- LABEL CLICKS (Triggers Buttons) ---
+       
         private void label3_Click(object sender, EventArgs e) { button1.PerformClick(); }
         private void label4_Click(object sender, EventArgs e) { button1.PerformClick(); }
         private void label5_Click(object sender, EventArgs e) { button2.PerformClick(); }
         private void label6_Click(object sender, EventArgs e) { button2.PerformClick(); }
         private void label7_Click(object sender, EventArgs e) { button4.PerformClick(); }
         private void label8_Click(object sender, EventArgs e) { button4.PerformClick(); }
-
-        // --- EMPTY METHODS ---
         private void button3_Click(object sender, EventArgs e) { }
     }
 }
